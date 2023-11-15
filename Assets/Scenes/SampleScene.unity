@@ -222,7 +222,7 @@ MonoBehaviour:
   UpdateStatics: 1
   Audio: {fileID: 20883694}
   tempMaxValue: 0.01
-  Multiplier: 695
+  Multiplier: 708
   IsSpectrumMusic: 0
   SpectrumResolution: 1024
   SpectrumLength: 256
@@ -231,19 +231,19 @@ MonoBehaviour:
   SpectrumGradient:
     serializedVersion: 2
     key0: {r: 0, g: 0, b: 0, a: 1}
-    key1: {r: 0, g: 0.017341137, b: 1, a: 1}
-    key2: {r: 1, g: 0.24705881, b: 0.26769444, a: 0}
-    key3: {r: 1, g: 0.983102, b: 0, a: 0}
-    key4: {r: 1, g: 1, b: 1, a: 0}
-    key5: {r: 0, g: 0, b: 0, a: 0}
+    key1: {r: 0.050980393, g: 0.105882354, b: 0.16470589, a: 1}
+    key2: {r: 0.105882354, g: 0.14901961, b: 0.23137255, a: 0}
+    key3: {r: 0.25490198, g: 0.3529412, b: 0.46666667, a: 0}
+    key4: {r: 0.46666667, g: 0.5529412, b: 0.6627451, a: 0}
+    key5: {r: 0.8784314, g: 0.88235295, b: 0.8666667, a: 0}
     key6: {r: 0, g: 0, b: 0, a: 0}
     key7: {r: 0, g: 0, b: 0, a: 0}
     ctime0: 0
-    ctime1: 8288
-    ctime2: 30455
-    ctime3: 54741
-    ctime4: 65535
-    ctime5: 0
+    ctime1: 2506
+    ctime2: 8288
+    ctime3: 30455
+    ctime4: 54741
+    ctime5: 65535
     ctime6: 0
     ctime7: 0
     atime0: 0
@@ -256,11 +256,11 @@ MonoBehaviour:
     atime7: 0
     m_Mode: 0
     m_ColorSpace: -1
-    m_NumColorKeys: 5
+    m_NumColorKeys: 6
     m_NumAlphaKeys: 2
   ShellCount: 64
-  shellLength: 0.23
-  Threshold: 0.121
+  shellLength: 0.5
+  Threshold: 0.2
   CoroutineWaitTime: 0.016
 --- !u!82 &20883694
 AudioSource:
@@ -272,7 +272,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 4d1e3a209c28ff8418c6451b3b2aabae, type: 3}
+  m_audioClip: {fileID: 8300000, guid: ff3d9bf4f71fed34d81d79754531d731, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -538,8 +538,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.2348796, y: 0.515238, z: -0.14489649, w: 0.81139785}
-  m_LocalPosition: {x: -4.2610674, y: 5.775801, z: 9.784806}
+  m_LocalRotation: {x: 0.36695626, y: 0.6073184, z: -0.36449054, w: 0.6030375}
+  m_LocalPosition: {x: -3.0659513, y: 12.421015, z: 14.846335}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -687,6 +687,68 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 180, y: 0, z: 0}
+--- !u!1 &1428237356
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1428237357}
+  m_Layer: 0
+  m_Name: CamPos3
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1428237357
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1428237356}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.28301153, y: 0.050322525, z: -0.014871203, w: 0.95768}
+  m_LocalPosition: {x: 3.9159489, y: 6.7889824, z: 4.572735}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1620533676
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1620533677}
+  m_Layer: 0
+  m_Name: CamPos4
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1620533677
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1620533676}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.36695623, y: 0.6073184, z: -0.3644905, w: 0.6030375}
+  m_LocalPosition: {x: -3.065951, y: 12.421015, z: 14.846335}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1669469929
 GameObject:
   m_ObjectHideFlags: 0
@@ -759,3 +821,5 @@ SceneRoots:
   - {fileID: 20883692}
   - {fileID: 2095590391}
   - {fileID: 1669469930}
+  - {fileID: 1428237357}
+  - {fileID: 1620533677}
