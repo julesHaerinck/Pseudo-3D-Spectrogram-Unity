@@ -22,11 +22,11 @@ public class ShellScript : MonoBehaviour
 	public int        SpectrumLength;
     [Range(0.0001f, 15f)]
     public float      SpectrumMaxValue = 10f;
-	[Range(0.0001f, 10f)]
+	[Range(0.0001f, .3f)]
 	public float      SpectrumMinValue = 0.001f;
 	public Gradient   SpectrumGradient;
-	[Range(0f, 5f)]
-	public float      MaxValueSampleRate = 1f;
+	//[Range(0f, 5f)]
+	//public float      MaxValueSampleRate = 1f;
 
 
 	[Header("Shader Control")]
@@ -36,8 +36,8 @@ public class ShellScript : MonoBehaviour
 	public float shellLength = 0.15f;
 	[Range(0f,1f)]
 	public float Threshold = 0.1f;
-	[Range(0f, 10f)]
-	public float ColorMultiplier = 1f;
+	//[Range(0f, 10f)]
+	//public float ColorMultiplier = 1f;
 	[Range(0f, 6f)]
 	public float CoroutineWaitTime = 0.06f;
 	

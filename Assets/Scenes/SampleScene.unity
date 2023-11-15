@@ -222,8 +222,8 @@ MonoBehaviour:
   UpdateStatics: 1
   Audio: {fileID: 20883694}
   tempMaxValue: 0.01
-  Multiplier: 100
-  IsSpectrumMusic: 1
+  Multiplier: 695
+  IsSpectrumMusic: 0
   SpectrumResolution: 1024
   SpectrumLength: 256
   SpectrumMaxValue: 15
@@ -231,7 +231,7 @@ MonoBehaviour:
   SpectrumGradient:
     serializedVersion: 2
     key0: {r: 0, g: 0, b: 0, a: 1}
-    key1: {r: 0, g: 0.0106546655, b: 0.6792453, a: 1}
+    key1: {r: 0, g: 0.017341137, b: 1, a: 1}
     key2: {r: 1, g: 0.24705881, b: 0.26769444, a: 0}
     key3: {r: 1, g: 0.983102, b: 0, a: 0}
     key4: {r: 1, g: 1, b: 1, a: 0}
@@ -258,11 +258,9 @@ MonoBehaviour:
     m_ColorSpace: -1
     m_NumColorKeys: 5
     m_NumAlphaKeys: 2
-  MaxValueSampleRate: 1
-  ShellCount: 16
+  ShellCount: 64
   shellLength: 0.23
   Threshold: 0.121
-  ColorMultiplier: 1.48
   CoroutineWaitTime: 0.016
 --- !u!82 &20883694
 AudioSource:

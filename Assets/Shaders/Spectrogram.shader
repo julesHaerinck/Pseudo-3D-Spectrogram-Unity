@@ -74,7 +74,8 @@ Shader "Custom/Spectrogram"
 				//float2 newUV = i.uv * 10;
 				//float2 localUV = frac(newUV) * 2 - 1;
 				
-				float greyscaleValue = 0.2126*baseColor.r + 0.7152*baseColor.g + 0.0722*baseColor.b;
+				//float greyscaleValue = 0.2126*baseColor.r + 0.7152*baseColor.g + 0.0722*baseColor.b;
+				float greyscaleValue = baseColor.r + baseColor.g + baseColor.b;
 				
 				if(greyscaleValue < (_Threshold * _ShellIndex)) discard;
 			
