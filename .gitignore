@@ -73,3 +73,6 @@ crashlytics-build.properties
 /[Aa]ssets/[Ss]treamingAssets/aa/*
 /Assets/Shaders/Shell.shader
 /Assets/Scripts/ShellScript.cs
+/Assets/Scripts/ShellScript.cs.meta
+/Assets/Shaders/Shell.shader.meta
+/Assets/AudioFiles.meta
