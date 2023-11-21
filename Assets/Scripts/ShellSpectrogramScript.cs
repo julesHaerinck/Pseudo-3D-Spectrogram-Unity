@@ -12,21 +12,21 @@ public class ShellScript : MonoBehaviour
 	public Shader      ShellShader;
 	public bool        UpdateStatics;
 	public AudioSource Audio;
-	public float tempMaxValue;
 
 	[Header("Spectrum Control")]
     [Range(0f, 1000f)]
     public float      Multiplier = 1f;
     public bool       IsSpectrumMusic = true;
 	public Resolution SpectrumResolution;
-	public int        SpectrumLength;
+
+	[Tooltip("Makes the Spectrogram go slower if value is higher")]
+	public int      SpectrumLength;
     [Range(0.0001f, 15f)]
-    public float      SpectrumMaxValue = 10f;
+    public float    SpectrumMaxValue = 10f;
 	[Range(0.0001f, .3f)]
-	public float      SpectrumMinValue = 0.001f;
-	public Gradient   SpectrumGradient;
-	//[Range(0f, 5f)]
-	//public float      MaxValueSampleRate = 1f;
+	public float    SpectrumMinValue = 0.001f;
+	public Gradient SpectrumGradient;
+	public int      GradientTextureResolution = 64;
 
 
 	[Header("Shader Control")]
@@ -36,8 +36,6 @@ public class ShellScript : MonoBehaviour
 	public float shellLength = 0.15f;
 	[Range(0f,1f)]
 	public float Threshold = 0.1f;
-	//[Range(0f, 10f)]
-	//public float ColorMultiplier = 1f;
 	[Range(0f, 6f)]
 	public float CoroutineWaitTime = 0.06f;
 	
@@ -49,12 +47,17 @@ public class ShellScript : MonoBehaviour
 	private float[]      spectrumLeft;  // Array storing the Left chanel values of the spectrum
 	private Color[]      fullSpectrum1D;// Array of colors corresponding to every pixel of the spectrum texture
 	private float        logRange;
-	//private float        maxAudioValue;
 
-	private Texture2D texture;
+	private Texture2D spectrumTexture;
+	public Texture2D gradientTexture;
 
 
-	public enum Resolution
+    /// <summary>
+    /// Lists all the possible resolutions for the spectrogram,
+    /// As listed by Unity in the "GetSpectrumData" documentation :
+	/// "powers of 2 from 64 to 8192"
+    /// </summary>
+    public enum Resolution
 	{
 		_64   = 64,
 		_128  = 128,
@@ -66,23 +69,42 @@ public class ShellScript : MonoBehaviour
 		_8192 = 8192,
 	}
 
-	private void OnEnable()
+	private void Start()
 	{
-		texture = new Texture2D((int)SpectrumResolution, SpectrumLength, TextureFormat.RGBA32, false);
-		fullSpectrum1D = new Color[(int)SpectrumResolution * SpectrumLength];
-		spectrumMono   = new float[(int)SpectrumResolution];
-		spectrumRight  = new float[(int)SpectrumResolution];
-		spectrumLeft   = new float[(int)SpectrumResolution];
+		// The texture is only 1 pixel tall as it will only be used as some sort of lookup table to determine the color once in the shader
+		gradientTexture = new Texture2D(GradientTextureResolution, 1, TextureFormat.RGBA32, false);
+		// REALLY IMPORTANT :
+		// if wraping not set to clamped, the min and max would loop back around and cause problemes
+		// (if the gradient has black as the min value and white as the max, it would cause some black parts to turn grey)
+		gradientTexture.wrapMode = TextureWrapMode.Clamp;
+
+        spectrumTexture = new Texture2D((int)SpectrumResolution, SpectrumLength, TextureFormat.R8, false);
+
+        fullSpectrum1D  = new Color[(int)SpectrumResolution * SpectrumLength];
+		spectrumMono    = new float[(int)SpectrumResolution];
+		spectrumRight   = new float[(int)SpectrumResolution];
+		spectrumLeft    = new float[(int)SpectrumResolution];
 
 		shellMaterial = new Material(ShellShader);
 		shells        = new GameObject[ShellCount];
 
 
-		shellMaterial.mainTexture = texture;
+		shellMaterial.mainTexture = spectrumTexture;
 
 		logRange = Mathf.Log((int)SpectrumResolution);
 		float tempRange = (int)SpectrumResolution / logRange;
 		logRange = tempRange;
+
+		Color[] gradientColors = new Color[GradientTextureResolution];
+		for(int i = 0; i < GradientTextureResolution; i++)
+		{
+			float gradientPlacement = i / (float)GradientTextureResolution;
+
+			gradientColors[i] = SpectrumGradient.Evaluate(gradientPlacement);
+			Debug.Log(gradientColors[i]);
+        }
+		gradientTexture.SetPixels(gradientColors);
+		gradientTexture.Apply();
 
 		for(int i = 0; i < ShellCount; ++i)
 		{
@@ -101,10 +123,10 @@ public class ShellScript : MonoBehaviour
 			temp.material.SetFloat("_Threshold", Threshold);
 			//temp.material.SetFloat("_Multiplier", Multiplier);
 			//temp.material.SetFloat("_ColorMultiplier", ColorMultiplier);
-			temp.material.SetTexture("_MainTexture", texture);
+			temp.material.SetTexture("_MainTexture", spectrumTexture);
+			temp.material.SetTexture("_GradientTexture", gradientTexture);
 		}
 		StartCoroutine(UpdateShader());
-		//StartCoroutine(SampleMaxValue());
 	}
 
 	/// <summary>
@@ -145,9 +167,7 @@ public class ShellScript : MonoBehaviour
 					shells[i].GetComponent<MeshRenderer>().material.SetInt("_ShellIndex", i);
 					shells[i].GetComponent<MeshRenderer>().material.SetFloat("_ShellLength", shellLength);
 					shells[i].GetComponent<MeshRenderer>().material.SetFloat("_Threshold", Threshold);
-					//shells[i].GetComponent<MeshRenderer>().material.SetFloat("_Multiplier", Multiplier);
-					//shells[i].GetComponent<MeshRenderer>().material.SetFloat("_ColorMultiplier", ColorMultiplier);
-					shells[i].GetComponent<MeshRenderer>().material.SetTexture("_MainTexture", texture);
+					shells[i].GetComponent<MeshRenderer>().material.SetTexture("_MainTexture", spectrumTexture);
 				}
 			}
 			yield return new WaitForSeconds(CoroutineWaitTime);
@@ -158,13 +178,14 @@ public class ShellScript : MonoBehaviour
 	{
 		for(int index = 0; index < (int)SpectrumResolution; index++)
 		{
-			fullSpectrum1D[index] = SpectrumGradient.Evaluate(spectrumMono[index]);
+			fullSpectrum1D[index] = new Color(spectrumMono[index],0,0,1);
+			//fullSpectrum1D[index] = SpectrumGradient.Evaluate(spectrumMono[index]);
 			//Debug.Log($"Spectrum Value : {spectrum[index]}, Gradient Value {SpectrumGradient.Evaluate(spectrum[index])}");
 		}
 		Array.Copy(fullSpectrum1D, 0, fullSpectrum1D, ((int)SpectrumResolution), (int)SpectrumResolution * SpectrumLength - (int)SpectrumResolution);
 
-		texture.SetPixels(fullSpectrum1D);
-		texture.Apply();
+		spectrumTexture.SetPixels(fullSpectrum1D);
+		spectrumTexture.Apply();
 	}
 
 	// TODO
@@ -216,8 +237,6 @@ public class ShellScript : MonoBehaviour
 				monoValue = (spectrumLeft[i - 1] + spectrumRight[i - 1]) * Multiplier;
 				monoValue = monoValue < SpectrumMaxValue ? monoValue : SpectrumMaxValue;
 
-                //f(monoValue > 0f && monoValue < SpectrumMinValue)
-                //	monoValue = SpectrumMinValue;
 
                 if(monoValue < SpectrumMinValue)
                     monoValue = 0f;
@@ -236,14 +255,11 @@ public class ShellScript : MonoBehaviour
         		int iterations = ints[i + 1] - ints[i];
         		float valA = spectrumMono[ints[i]];
         		float valB = spectrumMono[ints[i + 1]];
-				//Debug.Log(iterations);
+
         		for(int j = 0; j < iterations - 1; j++)
         		{
         			float lerpStep = (float)j / (float)iterations;
         			spectrumMono[spectrumIndex + j + 1] = EasingFunction.Linear(valA, valB, lerpStep);
-                    //Debug.Log(lerpStep);
-                    //Debug.Log($"ValA : {valA}, ValB : {valB}, Lerp : {Mathf.Lerp(valA, valB, lerpStep)}");Mathf.Lerp(valA, valB, lerpStep)
-                    // EasingFunction.EaseInExpo(valA, valB, lerpStep)
                 }
             }
         	
@@ -251,13 +267,40 @@ public class ShellScript : MonoBehaviour
         ints.Clear();
     }
 
-	void OnDisable()
+	private void UpdateGradientTexture()
 	{
-		for(int i = 0; i < shells.Length; ++i)
-		{
-			Destroy(shells[i]);
-		}
+        Color[] gradientColors = new Color[GradientTextureResolution];
+        for(int i = 0; i < GradientTextureResolution; i++)
+        {
+            float gradientPlacement = i / (float)GradientTextureResolution;
 
-		shells = null;
-	}
+            gradientColors[i] = SpectrumGradient.Evaluate(gradientPlacement);
+        }
+        gradientTexture.SetPixels(gradientColors);
+        gradientTexture.Apply();
+    }
+
+    public void OnGUI()
+    {
+        if(GUI.Button(new Rect(10, 70, 150, 30), "Update Gradient"))
+		{
+			UpdateGradientTexture();
+        }
+    }
+
+    //void OnDisable()
+	//{
+	//	for(int i = 0; i < shells.Length; ++i)
+	//	{
+	//		Destroy(shells[i]);
+	//	}
+	//
+	//	shells = null;
+	//}
 }
+
+
+
+// Exemple of how to add variables in a string,
+// in case I forget
+//Debug.Log($"ValA : {valA}, ValB : {valB}, Lerp : {Mathf.Lerp(valA, valB, lerpStep)}");Mathf.Lerp(valA, valB, lerpStep)

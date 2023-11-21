@@ -222,10 +222,10 @@ MonoBehaviour:
   UpdateStatics: 1
   Audio: {fileID: 20883694}
   tempMaxValue: 0.01
-  Multiplier: 708
-  IsSpectrumMusic: 0
+  Multiplier: 52
+  IsSpectrumMusic: 1
   SpectrumResolution: 1024
-  SpectrumLength: 256
+  SpectrumLength: 125
   SpectrumMaxValue: 15
   SpectrumMinValue: 0.0001
   SpectrumGradient:
@@ -259,7 +259,7 @@ MonoBehaviour:
     m_NumColorKeys: 6
     m_NumAlphaKeys: 2
   ShellCount: 64
-  shellLength: 0.5
+  shellLength: 0.65
   Threshold: 0.2
   CoroutineWaitTime: 0.016
 --- !u!82 &20883694
@@ -272,7 +272,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: ff3d9bf4f71fed34d81d79754531d731, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 930cf7d3cabca5a46b6e59b47907f43c, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -538,8 +538,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.36695626, y: 0.6073184, z: -0.36449054, w: 0.6030375}
-  m_LocalPosition: {x: -3.0659513, y: 12.421015, z: 14.846335}
+  m_LocalRotation: {x: 0.14553626, y: 0.8318531, z: -0.47471958, w: 0.24795376}
+  m_LocalPosition: {x: -0.101088464, y: 11.854964, z: 22.662603}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -558,7 +558,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Target: {fileID: 20883692}
-  Speed: 1
+  Speed: 0.15
 --- !u!1 &1121705530
 GameObject:
   m_ObjectHideFlags: 0
@@ -575,7 +575,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!82 &1121705531
 AudioSource:
   m_ObjectHideFlags: 0

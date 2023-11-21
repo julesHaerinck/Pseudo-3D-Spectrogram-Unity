@@ -39,6 +39,7 @@ Shader "Custom/Spectrogram"
 			float  _ShellLength;
 			float  _Threshold;
 			sampler2D _MainTexture;
+			sampler2D _GradientTexture;
 			
 
 			v2f vp(VertexData v){
@@ -59,14 +60,15 @@ Shader "Custom/Spectrogram"
 
 			float4 fp(v2f i) : SV_TARGET{
 				
-				fixed4 baseColor = tex2D(_MainTexture, i.uv);
+				float baseColor = tex2D(_MainTexture, i.uv);
+				
+				//float greyscaleValue = baseColor.r + baseColor.g + baseColor.b;
+				
+				if(baseColor < (_Threshold * _ShellIndex)) discard;
+				fixed4 gradientColor = tex2D(_GradientTexture, baseColor);
+				
 
-				float greyscaleValue = baseColor.r + baseColor.g + baseColor.b;
-				
-				if(greyscaleValue < (_Threshold * _ShellIndex)) discard;
-			
-				
-				return baseColor;
+				return gradientColor;
 			}
 
 			ENDCG
