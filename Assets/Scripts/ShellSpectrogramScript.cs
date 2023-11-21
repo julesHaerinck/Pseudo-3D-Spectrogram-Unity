@@ -79,6 +79,7 @@ public class ShellScript : MonoBehaviour
 		gradientTexture.wrapMode = TextureWrapMode.Clamp;
 
         spectrumTexture = new Texture2D((int)SpectrumResolution, SpectrumLength, TextureFormat.R8, false);
+		spectrumTexture.wrapMode = TextureWrapMode.Clamp;
 
         fullSpectrum1D  = new Color[(int)SpectrumResolution * SpectrumLength];
 		spectrumMono    = new float[(int)SpectrumResolution];
