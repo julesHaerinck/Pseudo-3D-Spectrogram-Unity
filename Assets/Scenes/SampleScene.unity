@@ -388,6 +388,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34d559ed85e37704695f22fc68192bb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MusicFileButtonText: {fileID: 936208091}
   TimeBeforMusicStart: 3
   UICanvas: {fileID: 606683201}
   FilePath: []
@@ -1334,7 +1335,7 @@ MonoBehaviour:
   m_fontSizeBase: 20.6
   m_fontWeight: 400
   m_enableAutoSizing: 1
-  m_fontSizeMin: 18
+  m_fontSizeMin: 0
   m_fontSizeMax: 72
   m_fontStyle: 1
   m_HorizontalAlignment: 2
@@ -2301,7 +2302,7 @@ GameObject:
   - component: {fileID: 1798962775}
   - component: {fileID: 1798962774}
   m_Layer: 5
-  m_Name: Button
+  m_Name: FileSelectButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
