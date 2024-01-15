@@ -5,3 +5,5 @@ A Spectrogram in Unity using Shells and a shader to give the illusion of 3D
 <br/>
 Done in the context of Acerola's [Shell Texturing challenge](https://www.youtube.com/watch?v=9dr-tRQzij4)
 <br/>
+<br/>
+Using Gökhan Gökçe's [UnityStandaloneFileBrowser](https://github.com/gkngkc/UnityStandaloneFileBrowser)
