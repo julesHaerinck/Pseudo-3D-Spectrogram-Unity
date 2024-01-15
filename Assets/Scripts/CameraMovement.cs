@@ -10,7 +10,7 @@ public class CameraMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.LookAt(Target);
-        transform.Translate(Vector3.right * Speed * Time.deltaTime);
+        //transform.LookAt(Target);
+        //transform.Translate(Vector3.right * Speed * Time.deltaTime);
     }
 }
