@@ -1,19 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Data;
 using System;
-using UnityEditor.MPE;
 using UnityEngine;
-using Unity.VisualScripting;
 
 public class ShellScript : MonoBehaviour
 {
 	public MeshFilter  ShellMesh;
 	public Shader      ShellShader;
 	public bool        UpdateStatics;
-	public AudioSource Audio;
+	public Texture2D   GradientView;
+    public bool        isInPreviewMode = true;
 
-	[Header("Spectrum Control")]
+    [Header("Spectrum Control")]
     [Range(0f, 1000f)]
     public float      Multiplier = 1f;
     public bool       IsSpectrumMusic = true;
@@ -39,6 +37,7 @@ public class ShellScript : MonoBehaviour
 	[Range(0f, 6f)]
 	public float CoroutineWaitTime = 0.06f;
 	
+	
 
 	private Material     shellMaterial; 
 	private GameObject[] shells;
@@ -49,8 +48,9 @@ public class ShellScript : MonoBehaviour
 	private float        logRange;
 
 	private Texture2D spectrumTexture;
-	public Texture2D gradientTexture;
+	private Texture2D gradientTexture;
 
+    private AudioSource Audio;
 
     /// <summary>
     /// Lists all the possible resolutions for the spectrogram,
@@ -71,6 +71,8 @@ public class ShellScript : MonoBehaviour
 
 	private void Start()
 	{
+		Audio = AudioManager.Instance.MainAudioSource;
+
 		// The texture is only 1 pixel tall as it will only be used as some sort of lookup table to determine the color once in the shader
 		gradientTexture = new Texture2D(GradientTextureResolution, 1, TextureFormat.RGBA32, false);
 		// REALLY IMPORTANT :
@@ -102,7 +104,7 @@ public class ShellScript : MonoBehaviour
 			float gradientPlacement = i / (float)GradientTextureResolution;
 
 			gradientColors[i] = SpectrumGradient.Evaluate(gradientPlacement);
-			Debug.Log(gradientColors[i]);
+			//Debug.Log(gradientColors[i]);
         }
 		gradientTexture.SetPixels(gradientColors);
 		gradientTexture.Apply();
@@ -155,25 +157,46 @@ public class ShellScript : MonoBehaviour
 	{
 		while(true)
 		{
-			Audio.GetSpectrumData(spectrumRight, 1, FFTWindow.BlackmanHarris);
-			Audio.GetSpectrumData(spectrumLeft, 0, FFTWindow.BlackmanHarris);
+			if(isInPreviewMode)
+				UpdateShaderForPreview();
+			else
+				UpdateShaderForMusic();
 
-			ProcessAudioValues();
-			ProcessSpectrogramTexture();
-
-			if(UpdateStatics)
-			{
-				for(int i = 0; i < ShellCount; ++i)
-				{
-					shells[i].GetComponent<MeshRenderer>().material.SetInt("_ShellIndex", i);
-					shells[i].GetComponent<MeshRenderer>().material.SetFloat("_ShellLength", shellLength);
-					shells[i].GetComponent<MeshRenderer>().material.SetFloat("_Threshold", Threshold);
-					shells[i].GetComponent<MeshRenderer>().material.SetTexture("_MainTexture", spectrumTexture);
-				}
-			}
 			yield return new WaitForSeconds(CoroutineWaitTime);
 		}
 	}
+
+	private void UpdateShaderForPreview()
+	{
+        for(int i = 0; i < ShellCount; ++i)
+        {
+            shells[i].GetComponent<MeshRenderer>().material.SetInt("_ShellIndex", i);
+            shells[i].GetComponent<MeshRenderer>().material.SetFloat("_ShellLength", shellLength);
+            shells[i].GetComponent<MeshRenderer>().material.SetFloat("_Threshold", Threshold);
+            shells[i].GetComponent<MeshRenderer>().material.SetTexture("_MainTexture", GradientView);
+        }
+    }
+
+	private void UpdateShaderForMusic()
+	{
+        Audio.GetSpectrumData(spectrumRight, 1, FFTWindow.BlackmanHarris);
+        Audio.GetSpectrumData(spectrumLeft, 0, FFTWindow.BlackmanHarris);
+
+        ProcessAudioValues();
+        ProcessSpectrogramTexture();
+
+        if(UpdateStatics)
+        {
+            for(int i = 0; i < ShellCount; ++i)
+            {
+                shells[i].GetComponent<MeshRenderer>().material.SetInt("_ShellIndex", i);
+                shells[i].GetComponent<MeshRenderer>().material.SetFloat("_ShellLength", shellLength);
+                shells[i].GetComponent<MeshRenderer>().material.SetFloat("_Threshold", Threshold);
+                shells[i].GetComponent<MeshRenderer>().material.SetTexture("_MainTexture", spectrumTexture);
+            }
+        }
+    }
+
 
 	private void ProcessSpectrogramTexture()
 	{
@@ -281,13 +304,13 @@ public class ShellScript : MonoBehaviour
         gradientTexture.Apply();
     }
 
-    public void OnGUI()
-    {
-        if(GUI.Button(new Rect(10, 70, 150, 30), "Update Gradient"))
-		{
-			UpdateGradientTexture();
-        }
-    }
+    //public void OnGUI()
+    //{
+    //    if(GUI.Button(new Rect(10, 70, 150, 30), "Update Gradient"))
+	//	{
+	//		UpdateGradientTexture();
+    //    }
+    //}
 
     //void OnDisable()
 	//{
