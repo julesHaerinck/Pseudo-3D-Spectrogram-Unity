@@ -19,4 +19,9 @@ public class AudioManager : MonoBehaviour
 
         instance = this;
     }
+
+    public void SetAudioFile(AudioClip audio)
+    {
+        mainAudioSource.clip = audio;
+    }
 }
