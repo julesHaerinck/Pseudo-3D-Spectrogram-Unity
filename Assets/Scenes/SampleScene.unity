@@ -388,9 +388,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34d559ed85e37704695f22fc68192bb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StartButton: {fileID: 0}
   TimeBeforMusicStart: 3
   UICanvas: {fileID: 606683201}
+  FilePath: []
 --- !u!4 &149665767
 Transform:
   m_ObjectHideFlags: 0
@@ -2528,50 +2528,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 753885212}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &2132667455
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2132667456}
-  - component: {fileID: 2132667457}
-  m_Layer: 0
-  m_Name: StartMusic
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &2132667456
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2132667455}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.5013433, y: -2.1868124, z: 14.968717}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2132667457
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2132667455}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b609577383ab4de4ab5457e22f19e183, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -2580,7 +2536,6 @@ SceneRoots:
   - {fileID: 705507995}
   - {fileID: 1121705532}
   - {fileID: 20883692}
-  - {fileID: 2132667456}
   - {fileID: 606683206}
   - {fileID: 782258646}
   - {fileID: 250788248}
